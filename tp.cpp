@@ -1,110 +1,68 @@
 #include <bits/stdc++.h>
-using namespace std;
 #define ll long long
-#define f(i,a,b) for(int i=a; i<b; i++)
+#define f(i, a, b) for(ll i=a; i<b; i++)
 #define pb push_back
-#define vi vector<int>
-#define vll vector<long long>
+#define mp make_pair
+#define F first
+#define S second
+#define LB lower_bound
+#define UB upper_bound
+using namespace std;
 
-int gcd(int x, int y)
-{
-    if(x==0) return y;
-    return gcd(y%x, x);
-}
+bool sortbysec(const pair<ll,ll> &a, 
+              const pair<ll,ll> &b) 
+{ 
+    return (a.second < b.second); 
+} 
 
-ll powM(ll x, ll y, ll m)
+ll findSubarraySum(ll arr[], ll n, ll sum = 0) 
 {
-    if(y == 0) return 1;
-    ll p = powM(x, y/2, m) % m;
-    p = (p*p) % m;
-    return (y%2 == 0) ? p : (x*p) % m;
-}
-
-int maxsum(int a[], int n)
-{
-    int mfar = INT_MIN, mend = 0;
-    f(i, 0, n)
+    unordered_map<ll, ll> prevSum;
+    ll res = 0;
+    ll currsum = 0;
+    for (ll i = 0; i < n; i++)
     {
-        mend += a[i];
-        if (mfar < mend) mfar = mend;
-        if (mend < 0) mend = 0;
+        currsum += arr[i];
+        if (currsum == sum) res++;
+        if (prevSum.find(currsum - sum) != prevSum.end()) res += (prevSum[currsum - sum]);
+        prevSum[currsum]++;
     }
-    return mfar;
-}
-
-void pairsort(int a[], int b[], int n)
-{
-    pair<int,int> v[n];
-    f(i, 0, n)
-    {
-        v[i].first=a[i];
-        v[i].second=b[i];
-    }
-    sort(v, v+n);
-    f(i,0,n)
-    {
-        a[i]=v[i].first;
-        b[i]=v[i].second;
-    }
-}
-
-bool isSubsetSum(int set[], int n, int sum)
-{
-   if (sum == 0) return true;
-   if (n == 0 && sum != 0) return false;
-   if (set[n-1] > sum) return isSubsetSum(set, n-1, sum);
-   return isSubsetSum(set, n-1, sum) || isSubsetSum(set, n-1, sum-set[n-1]);
-}
-
-int minSumSeq(int arr[], int n, int k)
-{
-    int res = 0;
-    f(i, 0, k) res += arr[i];
-    int sum = res;
-    f(i, k, n)
-    {
-       sum += arr[i] - arr[i-k];
-       res = min(res, sum);
-    }
-    return res;
-}
-
-int maxSumSeq(int arr[], int n, int k)
-{
-    int res = 0;
-    f(i, 0, k) res += arr[i];
-    int sum = res;
-    f(i, k, n)
-    {
-       sum += arr[i] - arr[i-k];
-       res = max(res, sum);
-    }
-    return res;
-}
-
-char maxChar(char str[], int n)
-{
-    int count[1000] = {0};
-    int max = 0;
-    char result;
-    f(i, 0, n)
-    {
-        count[(int)str[i]]++;
-        if (max < count[(int)str[i]])
-        {
-            max = count[(int)str[i]];
-            result = str[i];
-        }
-    }
+    return res; 
+} 
+ll gcd(ll a, ll b) 
+{ 
+    if (a == 0) 
+        return b; 
+    return gcd(b % a, a); 
+} 
+  
+ll findGCD(ll arr[], ll n) 
+{ 
+    ll result = arr[0]; 
+    for (ll i = 1; i < n; i++)
+        result = gcd(arr[i], result); 
+  
     return result; 
-}
+} 
+ll powmp(ll x, ll y, ll p) 
+{ 
+    ll res = 1;     x = x % p;   
+    while (y > 0) 
+    {  
+        if (y & 1)  res = (res*x) % p; 
+        y = y>>1; 
+        x = (x*x) % p;   
+    } 
+    return res; 
+} 
 
-int main() {
-    int t;
-    cin>>t;
+int main()
+{
+    ios_base::sync_with_stdio(false); 
+    cin.tie(NULL);
+    ll t; cin>>t;
     while(t--)
     {
-        
+    
     }
-    return 0;
 }
